@@ -86,6 +86,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
+import WebhookAlert from "./webhook-alert";
 
 // Schema definitions for different GitHub entities
 export const repositorySchema = z.object({
@@ -207,7 +208,7 @@ function DraggableRow({ row }) {
 }
 
 // Repository columns configuration
-const getRepositoryColumns = () => [
+const getRepositoryColumns = ({ onAddWebhook }) => [
   {
     id: "drag",
     header: () => null,
@@ -329,7 +330,7 @@ const getRepositoryColumns = () => [
           >
             View on GitHub
           </DropdownMenuItem>
-          <DropdownMenuItem>Clone</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onAddWebhook(row.original)}>Add Webhook</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">Remove</DropdownMenuItem>
         </DropdownMenuContent>
@@ -599,6 +600,8 @@ export function GitHubTable({ data: initialData, type = "repositories" }) {
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [sorting, setSorting] = React.useState([]);
+  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [selectedRepo, setSelectedRepo] = React.useState(null)
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
@@ -611,17 +614,22 @@ export function GitHubTable({ data: initialData, type = "repositories" }) {
     useSensor(KeyboardSensor, {})
   );
 
+  const handleOpenDialog = (repo) => {
+    setSelectedRepo(repo);
+    setDialogOpen(true);
+  };
+
   // Get columns based on type
   const columns = React.useMemo(() => {
     switch (type) {
       case "repositories":
-        return getRepositoryColumns();
+        return getRepositoryColumns({ onAddWebhook: handleOpenDialog });
       case "commits":
         return getCommitColumns();
       case "pull-requests":
         return getPullRequestColumns();
       default:
-        return getRepositoryColumns();
+        return getRepositoryColumns({ onAddWebhook: handleOpenDialog });
     }
   }, [type]);
 
@@ -675,6 +683,10 @@ export function GitHubTable({ data: initialData, type = "repositories" }) {
         return "GitHub Data";
     }
   };
+
+  React.useEffect(() => {
+    console.log(selectedRepo)
+  }, [selectedRepo])
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -847,6 +859,8 @@ export function GitHubTable({ data: initialData, type = "repositories" }) {
             </div>
           </div>
         </div>
+
+        <WebhookAlert open={dialogOpen} setOpen={setDialogOpen} repo={selectedRepo} />
       </div>
     </div>
   );

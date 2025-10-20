@@ -1,18 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getCommits } from "@/api/commit";
-import { GitItemCard } from "@/components/GitItemCard";
-import { SiteHeader } from "@/components/site-header";
+import { getReviews } from "@/api/review";
+import { ReviewCard } from "@/components/ReviewCard";
 import Loader from "@/components/Loader";
 
-const Commits = () => {
+const Review = ({title, className}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const handleFetchPullRequests = async () => {
     try {
       setLoading(true);
-      const response = await getCommits();
+      const response = await getReviews();
       const data = response;
       setData(data);
     } catch (error) {
@@ -39,10 +38,14 @@ const Commits = () => {
     <>
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            {data.map((commit, index) => (
+          <div className={`flex flex-col gap-4 ${className}`}>
+            {title && <h1 className="text-black font-semibold text-base md:text-lg px-6">{title}</h1>}
+            {data.map((review, index) => (
               <div key={index}>
-                <GitItemCard data={commit} type="commit" />
+                <ReviewCard
+                  type={review.deleted_at ? "deleted" : "active"}
+                  data={review}
+                />
               </div>
             ))}
           </div>
@@ -52,4 +55,4 @@ const Commits = () => {
   );
 };
 
-export default Commits;
+export default Review;

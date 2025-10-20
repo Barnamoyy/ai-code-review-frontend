@@ -1,6 +1,6 @@
-export const getCommits = async (token, user) => {
+export const getReviews = async () => {
   try {
-    const response = await fetch("http://localhost:8080/api/getallcommits", {
+    const response = await fetch("http://localhost:8080/api/getallreviews", {
       method: "GET",
     });
     const data = await response.json();
@@ -9,6 +9,6 @@ export const getCommits = async (token, user) => {
     }
     return data;
   } catch (error) {
-    console.error("Error fetching commits:", error);
+    console.error("Error getting reviews: ", error); 
   }
 };

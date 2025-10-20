@@ -1,19 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getCommits } from "@/api/commit";
+import { getPullRequests } from "@/api/pullrequest";
 import { GitItemCard } from "@/components/GitItemCard";
 import { SiteHeader } from "@/components/site-header";
 import Loader from "@/components/Loader";
 
-const Commits = () => {
+const PullRequest = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const handleFetchPullRequests = async () => {
     try {
       setLoading(true);
-      const response = await getCommits();
-      const data = response;
+      const response = await getPullRequests();
+      const data = response.data;
       setData(data);
     } catch (error) {
       setError(error);
@@ -32,7 +32,7 @@ const Commits = () => {
   }, [data]);
 
   if (loading) {
-    <Loader />
+    <Loader />;
   }
 
   return (
@@ -40,9 +40,9 @@ const Commits = () => {
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            {data.map((commit, index) => (
+            {data.map((pr, index) => (
               <div key={index}>
-                <GitItemCard data={commit} type="commit" />
+                <GitItemCard data={pr} type="pullrequest" />
               </div>
             ))}
           </div>
@@ -52,4 +52,4 @@ const Commits = () => {
   );
 };
 
-export default Commits;
+export default PullRequest;

@@ -16,7 +16,8 @@ import {
   IconSettings,
   IconUsers,
   IconGitPullRequest,
-  IconGitCommit
+  IconGitCommit,
+  IconDevicesCheck
 } from "@tabler/icons-react"
 
 import { NavDocuments } from "@/components/nav-documents"
@@ -43,29 +44,29 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard/",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: "Reviews",
+      url: "/dashboard/review",
+      icon: IconDevicesCheck,
     },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
+    // {
+    //   title: "Analytics",
+    //   url: "/analytics",
+    //   icon: IconChartBar,
+    // },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: IconFolder,
     },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
+    // {
+    //   title: "Team",
+    //   url: "#",
+    //   icon: IconUsers,
+    // },
   ],
   navClouds: [
     {
@@ -144,8 +145,8 @@ const data = {
       icon: IconGitCommit,
     },
     {
-      name: "Pull Requests",
-      url: "#",
+      name: "Pull Requests",      
+      url: "/dashboard/pr",
       icon: IconGitPullRequest,
     },
   ],
@@ -156,7 +157,6 @@ export function AppSidebar({
 }) {
 
   const {data:session} = useSession()
-  console.log(session)
   const userData = {
     name: session?.user?.name, 
     email: session?.user?.email,
@@ -171,7 +171,7 @@ export function AppSidebar({
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Code Hobbit</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

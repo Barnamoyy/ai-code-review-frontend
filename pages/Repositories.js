@@ -40,7 +40,6 @@ const Repositories = () => {
   if (loading) {
     return (
       <>
-        <SiteHeader />
         <div className="flex items-center justify-center h-screen">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
         </div>
@@ -51,7 +50,6 @@ const Repositories = () => {
   if (error) {
     return (
       <>
-        <SiteHeader />
         <div className="flex items-center justify-center h-screen">
           <div className="text-lg text-red-500">{error}</div>
         </div>
@@ -62,7 +60,6 @@ const Repositories = () => {
   if (!data || data.length === 0) {
     return (
       <>
-        <SiteHeader />
         <div className="flex items-center justify-center h-screen">
           <div className="text-lg text-muted-foreground">No repositories found</div>
         </div>
@@ -72,7 +69,6 @@ const Repositories = () => {
 
   return (
     <>
-      <SiteHeader />
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">

@@ -6,19 +6,26 @@ export const authOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: "pull_requests:write",
+        },
+      },
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, profile }) {
       // Persist the OAuth access_token to the token right after signin
-      if (account) {
+      if (account && profile) {
         token.accessToken = account.access_token
+        token.username = profile.login
       }
       return token
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
+      session.username = token.username
       return session
     }
   }

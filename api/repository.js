@@ -26,3 +26,29 @@ export const getRepositories = async (token, user) => {
     console.error("Error fetching repositories:", error);
   }
 };
+
+export const addRepository = async (repository_name, github_username) => {
+  try {
+    const response = await fetch("http://localhost:8080/api/repositories", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        repository_name,
+        github_username,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to add user");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error adding user:", error.message);
+    throw error;
+  }
+}
