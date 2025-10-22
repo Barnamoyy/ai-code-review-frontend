@@ -17,7 +17,8 @@ import {
   IconUsers,
   IconGitPullRequest,
   IconGitCommit,
-  IconDevicesCheck
+  IconDevicesCheck,
+  IconTerminal
 } from "@tabler/icons-react"
 
 import { NavDocuments } from "@/components/nav-documents"
@@ -58,9 +59,9 @@ const data = {
     //   icon: IconChartBar,
     // },
     {
-      title: "Projects",
-      url: "/projects",
-      icon: IconFolder,
+      title: "logs",
+      url: "/dashboard/log",
+      icon: IconTerminal,
     },
     // {
     //   title: "Team",
